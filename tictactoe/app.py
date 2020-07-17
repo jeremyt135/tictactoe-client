@@ -108,6 +108,8 @@ async def show_game_board(gui_queue: asyncio.Queue(), client_queue: asyncio.Queu
                 await gui_queue.put(f'TURN {token} {row} {col}\n')
                 # get the Button element, set it to show our token, and disable it
                 window[event].Update(text=token, disabled=True)
+                # clear the "your turn" message
+                window[STATUS_KEY].update("Opponent's turn")
 
         await asyncio.sleep(0.001)
 
@@ -131,6 +133,8 @@ async def show_game_board(gui_queue: asyncio.Queue(), client_queue: asyncio.Queu
                     # update player label
                     label = window['PLAYER']
                     label.update(label.Get().replace('?', token))
+                    # update game status to started
+                    window[STATUS_KEY].update('Game started')
                 elif action == 'INVALID':
                     # write that previous move was invalid
                     window[STATUS_KEY].update('Your move was invalid')
